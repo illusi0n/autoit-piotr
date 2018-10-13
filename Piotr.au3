@@ -70,10 +70,9 @@ Func showMessage($message)
 EndFunc
 
 
-
-
 $FilePath = @ScriptDir &"\excel.xlsx"
 $sTextFile = @ScriptDir &"\input.txt"
+
 ; running excel
 Global $oExcel = _Excel_Open() 
 $oExcelBook=_Excel_BookOpen($oExcel, $FilePath)
@@ -94,7 +93,6 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 		
 		; Splitting string into chars
 		$aArray = StringSplit($oInput, "")
-		;_ArrayDisplay($aArray, "", Default, 8)
 		_Excel_Close($oExcel, True, True)
 		Sleep(500)
 		
@@ -102,7 +100,7 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 		; Chrome start here, go to Google and click on search bar
 		;
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		
+		SetupChrome()
 		StartChrome()
 
 		NavigateToURL($URL)
@@ -112,18 +110,38 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 		For $elem = 0 to UBound($aArray)-1
 			if $aArray[$elem]=="]" Then 
 			Sleep(2000)
-				SEND("{TAB}")
+			SEND("{TAB}")
+			Sleep(2000)
 			Else 
 				SEND($aArray[$elem])
 			Endif
 			
-			Sleep(200)
+			Sleep(150)
 		Next
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		; Once all text is keyed in, press 'share button'.
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 		
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		; DON'T Close FF browser here
+		;8. Go back to excel, copy text from column AF 
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+		$oExcel = _Excel_Open()
+		$oExcelBook=_Excel_BookOpen($oExcel, $FilePath)
+		$oCopy = _Excel_RangeRead($oExcelBook, Default, "AF"&$i&":AF"&$i, 1)
+		$vSheet2 = _ExcelSheetActivate($oExcel, 2)
+	
+		$j = 1
+		Local
+		While Not $oPaste ==""
+			$oPaste = _Excel_RangeRead($oExcelBook, Default, "A"&$j&":A"&$j, 1)
+			if $j==5000 Then 
+				showMessage("Quitting after trying to write in cell A"&$j)
+				exit 
+			Endif
+			$j+=1
+		WEnd
+			_Excel_RangeWrite ( $oExcelBook, $vSheet2, $oCopy, $vRange = "A"&$i , $bValue = True , $bForceFunc = False )
+					
 	endif
 $i += 1
 $aResult = _Excel_RangeRead($oExcelBook, Default, "F"&$i&":F"&$i, 1)
@@ -139,17 +157,8 @@ Exit MsgBox($MB_SYSTEMMODAL, "Error", "Error reading from workbook." & @CRLF & "
 MsgBox($MB_SYSTEMMODAL, "Excel UDF: _Excel_RangeRead", "Data successfully read." & @CRLF & "Please click 'OK'")
 endif
 
-Func SetupChrome()
-	_WD_Option('Driver', 'chromedriver.exe')
-	_WD_Option('Port', 9515)
-	_WD_Option('DriverParams', '--log-path="' & @ScriptDir & '\chrome.log"')
-
-	$sDesiredCapabilities = '{"capabilities": {"alwaysMatch": {"chromeOptions": {"w3c": true }}}}'
-EndFunc
-
 Func StartChrome()
-	SetupChrome()
-	_WD_Startup()
+	 _WD_Startup()
 	$sSession = _WD_CreateSession($sDesiredCapabilities)
 EndFunc
 
