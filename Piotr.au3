@@ -128,8 +128,14 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 		$oExcel = _Excel_Open()
 		$oExcelBook=_Excel_BookOpen($oExcel, $FilePath)
 		$oCopy = _Excel_RangeRead($oExcelBook, Default, "AF"&$i&":AF"&$i, 1)
-		$vSheet2 = _ExcelSheetActivate($oExcel, 2)
+		
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;9. Change sheet in excel to 2nd sheet
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;		
+		
 	
+	#cs
+		$vSheet2 = _ExcelSheetActivate($oExcel, 2)
 		$j = 1
 		Local $oPaste
 		While Not $oPaste ==""
@@ -140,26 +146,24 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 			Endif
 			$j+=1
 		WEnd
+	#ce
 		_ExcelSheetActivate($oExcel, 2)
 
 		$cellNum= giveNumberOfFirstEmptyCell($oExcelBook,"A")
 		$FirstEmptyCellInColumn = "A"&$cellNum
-		_Excel_RangeWrite ( $oExcelBook, $vSheet2, $oCopy, $vRange = "A"&$FirstEmptyCellInColumn , $bValue = True , $bForceFunc = False )
+		_Excel_RangeWrite ( $oExcelBook, $vSheet2, $oCopy, $vRange = $FirstEmptyCellInColumn , $bValue = True , $bForceFunc = False )
 					
 	endif
 $i += 1
 $aResult = _Excel_RangeRead($oExcelBook, Default, "F"&$i&":F"&$i, 1)
 WEnd
 
-		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		; Click share button here
-		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-If @error Then 
-Exit MsgBox($MB_SYSTEMMODAL, "Error", "Error reading from workbook." & @CRLF & "@error = " & @error & ", @extended = " & @extended)
-MsgBox($MB_SYSTEMMODAL, "Excel UDF: _Excel_RangeRead", "Data successfully read." & @CRLF & "Please click 'OK'")
-endif
+;If @error Then 
+;Exit MsgBox($MB_SYSTEMMODAL, "Error", "Error reading from workbook." & @CRLF & "@error = " & @error & ", @extended = " & @extended)
+;MsgBox($MB_SYSTEMMODAL, "Excel UDF: _Excel_RangeRead", "Data successfully read." & @CRLF & "Please click 'OK'")
+;endif
 
 Func StartChrome()
 	 _WD_Startup()
