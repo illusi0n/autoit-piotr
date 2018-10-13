@@ -1,4 +1,4 @@
-[1539457094.078][INFO]: COMMAND InitSession {
+[1539460944.687][INFO]: COMMAND InitSession {
    "capabilities": {
       "alwaysMatch": {
          "chromeOptions": {
@@ -7,7 +7,7 @@
       }
    }
 }
-[1539457094.080][INFO]: Populating Preferences file: {
+[1539460944.691][INFO]: Populating Preferences file: {
    "alternate_error_pages": {
       "enabled": false
    },
@@ -60,7 +60,7 @@
       "enabled": false
    }
 }
-[1539457094.082][INFO]: Populating Local State file: {
+[1539460944.693][INFO]: Populating Local State file: {
    "background_mode": {
       "enabled": false
    },
@@ -70,9 +70,9 @@
       }
    }
 }
-[1539457094.089][INFO]: Launching chrome: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension="C:\Users\milos\AppData\Local\Temp\scoped_dir5248_27021\internal" --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=12494 --test-type=webdriver --use-mock-keychain --user-data-dir="C:\Users\milos\AppData\Local\Temp\scoped_dir5248_2481" data:,
-[1539457094.703][INFO]: resolved localhost to ["::1","127.0.0.1"]
-[1539457095.726][INFO]: RESPONSE InitSession {
+[1539460944.706][INFO]: Launching chrome: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension="C:\Users\Rade\AppData\Local\Temp\scoped_dir4776_12380\internal" --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=12938 --test-type=webdriver --use-mock-keychain --user-data-dir="C:\Users\Rade\AppData\Local\Temp\scoped_dir4776_5853" data:,
+[1539460945.035][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[1539460946.061][INFO]: RESPONSE InitSession {
    "capabilities": {
       "acceptInsecureCerts": false,
       "acceptSslCerts": false,
@@ -81,7 +81,7 @@
       "browserName": "chrome",
       "chrome": {
          "chromedriverVersion": "2.37.543627 (63642262d9fb93fb4ab52398be4286d844092a5e)",
-         "userDataDir": "C:\\Users\\milos\\AppData\\Local\\Temp\\scoped_dir5248_2481"
+         "userDataDir": "C:\\Users\\Rade\\AppData\\Local\\Temp\\scoped_dir4776_5853"
       },
       "cssSelectorsEnabled": true,
       "databaseEnabled": false,
@@ -98,44 +98,9 @@
       "setWindowRect": true,
       "~~~": "..."
    },
-   "sessionId": "bcbf08948c44d74bedfb3c85ec9ef2b7"
+   "sessionId": "fd56d9f16381530fa44403d54df946b8"
 }
-[1539457095.742][INFO]: COMMAND Navigate {
-   "url": "http://google.com"
+[1539460946.074][INFO]: COMMAND Quit {
+
 }
-[1539457095.742][INFO]: Waiting for pending navigations...
-[1539457095.780][INFO]: Done waiting for pending navigations. Status: ok
-[1539457097.365][INFO]: Waiting for pending navigations...
-[1539457098.150][INFO]: Done waiting for pending navigations. Status: ok
-[1539457098.150][INFO]: RESPONSE Navigate
-[1539457103.162][INFO]: COMMAND FindElement {
-   "using": "xpath",
-   "value": "//input[@id='lst-ib1']"
-}
-[1539457103.162][INFO]: Waiting for pending navigations...
-[1539457103.164][INFO]: Done waiting for pending navigations. Status: ok
-[1539457103.213][INFO]: Waiting for pending navigations...
-[1539457103.216][INFO]: Done waiting for pending navigations. Status: ok
-[1539457103.216][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":"//input[@id='lst-ib1']"}
-  (Session info: chrome=69.0.3497.100)
-[1539457103.229][INFO]: COMMAND FindElement {
-   "using": "xpath",
-   "value": "//input[@id='lst-ib']"
-}
-[1539457103.229][INFO]: Waiting for pending navigations...
-[1539457103.230][INFO]: Done waiting for pending navigations. Status: ok
-[1539457103.251][INFO]: Waiting for pending navigations...
-[1539457103.252][INFO]: Done waiting for pending navigations. Status: ok
-[1539457103.252][INFO]: RESPONSE FindElement {
-   "element-6066-11e4-a52e-4f735466cecf": "c5d013ec-caad-4910-921c-a3ab5c351949"
-}
-[1539457108.275][INFO]: COMMAND TypeElement {
-   "id": "c5d013ec-caad-4910-921c-a3ab5c351949",
-   "text": "testing 123",
-   "value": [ "t", "e", "s", "t", "i", "n", "g", " ", "1", "2", "3" ]
-}
-[1539457108.275][INFO]: Waiting for pending navigations...
-[1539457108.277][INFO]: Done waiting for pending navigations. Status: ok
-[1539457108.401][INFO]: Waiting for pending navigations...
-[1539457108.402][INFO]: Done waiting for pending navigations. Status: ok
-[1539457108.402][INFO]: RESPONSE TypeElement
+[1539460946.180][INFO]: RESPONSE Quit

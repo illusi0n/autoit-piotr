@@ -13,10 +13,15 @@
 #include <file.au3>
 #include <array.au3>
 #include <Excel.au3>
+#include <web-driver\wd_core.au3>
+#include <web-driver\wd_helper.au3>
+#include <web-driver\browserFunctions.au3>
 
 #Local $config = readConfigFromFile("autoit.config")
 Local $config = readConfigFromUI()
 Local $numOfRepeat = $config[0]
+Global $ExcelBook
+Global $aResult
 
 executeNTimes($numOfRepeat)
 showMessage("Done")
@@ -63,12 +68,13 @@ Func showMessage($message)
 	MsgBox(0, "AutoIt", $message)
 EndFunc
 
-; running excel
-Global $oExcel = _Excel_Open() 
+
+
 
 $FilePath = @ScriptDir &"\excel.xlsx"
 $sTextFile = @ScriptDir &"\input.txt"
-
+; running excel
+Global $oExcel = _Excel_Open() 
 $oExcelBook=_Excel_BookOpen($oExcel, $FilePath)
 if @error == 2 Then 
 	MsgBox($MB_SYSTEMMODAL, "", "There is no such excel file under the path specified!")
@@ -76,7 +82,7 @@ if @error == 2 Then
 endif
 
 Local $i = 1
-Local $aResult = _Excel_RangeRead($oExcelBook, Default, "F"&$i&":F"&$i, 1)
+$aResult = _Excel_RangeRead($oExcelBook, Default, "F"&$i&":F"&$i, 1)
 
 While Not $aResult = ""
 MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
@@ -91,19 +97,19 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 		_Excel_Close($oExcel, True, True)
 		Sleep(500)
 		
-		; running Notepad and setting it on top
-		Run ( "notepad.exe " & $sTextFile, @WindowsDir, @SW_MAXIMIZE )
-		
-		If WinActivate("[CLASS:Notepad]", "") Then
-        MsgBox($MB_SYSTEMMODAL + $MB_ICONWARNING, "Warning", "Window activated" & @CRLF & @CRLF & "May be your system is pretty fast.")
-		Else
-        ; Notepad will be displayed as MsgBox introduce a delay and allow it.
-		MsgBox($MB_SYSTEMMODAL, "", "Window not activated" & @CRLF & @CRLF & "But notepad in background due to MsgBox.", 5)
-		EndIf
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		; add FF start here, go to Google and click on search bar
+		;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 			
 		For $elem = 0 to UBound($aArray)-1
-		SEND($elem)
-		Sleep(1000)
+			if $aArray[$elem]=="]" Then 
+				SEND("{TAB}")
+			Else 
+				SEND($aArray[$elem])
+			Endif
+			
+			Sleep(1000)
 		Next
 		; Close the Notepad window using the classname of Notepad.
 		If WinClose("[CLASS:Notepad]", "") Then
@@ -119,6 +125,6 @@ WEnd
 
 If @error Then 
 Exit MsgBox($MB_SYSTEMMODAL, "Error", "Error reading from workbook." & @CRLF & "@error = " & @error & ", @extended = " & @extended)
-MsgBox($MB_SYSTEMMODAL, "Excel UDF: _Excel_RangeRead Example 2", "Data successfully read." & @CRLF & "Please click 'OK' to display the formulas of cells A1:C1 of sheet 2.")
+MsgBox($MB_SYSTEMMODAL, "Excel UDF: _Excel_RangeRead", "Data successfully read." & @CRLF & "Please click 'OK'")
 endif
 

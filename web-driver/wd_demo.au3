@@ -3,10 +3,10 @@
 
 Local Enum $eFireFox = 0, _
 			$eChrome
-
+			
 Local $aDemoSuite[][2] = [["DemoTimeouts", False], ["DemoNavigation", False], ["DemoElements", False], ["DemoScript", False], ["DemoCookies", False], ["DemoAlerts", False],["DemoFrames", False], ["DemoActions", True]]
 
-Local Const $_TestType = $eChrome
+Local Const $_TestType = $eFireFox
 Local $sDesiredCapabilities
 Local $iIndex
 Local $sSession
@@ -142,7 +142,7 @@ EndFunc
 
 Func SetupGecko()
 _WD_Option('Driver', 'geckodriver.exe')
-_WD_Option('DriverParams', '--log trace')
+_WD_Option('DriverParams', '--log-path="' & @ScriptDir & '\firefox.log"')
 _WD_Option('Port', 4444)
 
 $sDesiredCapabilities = '{"desiredCapabilities":{"javascriptEnabled":true,"nativeEvents":true,"acceptInsecureCerts":true}}'
