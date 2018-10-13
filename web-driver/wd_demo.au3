@@ -6,7 +6,7 @@ Local Enum $eFireFox, _
 			
 Local $aDemoSuite[][2] = [["DemoTimeouts", False], ["DemoNavigation", False], ["DemoElements", False], ["DemoScript", False], ["DemoCookies", False], ["DemoAlerts", False],["DemoFrames", False], ["DemoActions", True]]
 
-Local Const $_TestType = $eChrome
+Local Const $_TestType = $eFireFox
 Local $sDesiredCapabilities
 Local $iIndex
 Local $sSession
@@ -28,6 +28,8 @@ $sSession = _WD_CreateSession($sDesiredCapabilities)
 
 DemoElements()
 Sleep(3000)
+
+
 _WD_DeleteSession($sSession)
 _WD_Shutdown()
 
@@ -126,12 +128,15 @@ Func DemoActions()
 	Local $sElement, $aElements, $sValue
 
 	_WD_Navigate($sSession, "http://google.com")
-	$sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, '//input[@id="lst-ib"]')
+	$sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, "//input[@id='lst-ib1']")
+
+	If @error = $_WD_ERROR_NoMatch Then
+		$sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, "//input[@id='lst-ib']")
+	EndIf
 
 ConsoleWrite("$sElement = " & $sElement & @CRLF)
 
-	$sAction = '{"actions":[{"id":"default mouse","type":"pointer","parameters":{"pointerType":"mouse"},"actions":[{"duration":100,"x":0,"y":0,"type":"pointerMove","origin":{"ELEMENT":"'
-	$sAction &= $sElement & '","' & $_WD_ELEMENT_ID & '":"' & $sElement & '"}},{"button":2,"type":"pointerDown"},{"button":2,"type":"pointerUp"}]}]}'
+	$sAction = '{"actions":[{"id":"default mouse","type":"pointer","parameters":{"pointerType":"mouse"},"actions":[{"duration":100,"x":0,"y":0,"type":"pointerMove","origin":{"ELEMENT":"' & $sElement & '","' & $_WD_ELEMENT_ID & '":"' & $sElement & '"}},{"button":2,"type":"pointerDown"},{"button":2,"type":"pointerUp"}]}]}'
 
 ConsoleWrite("$sAction = " & $sAction & @CRLF)
 
