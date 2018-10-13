@@ -1,4 +1,4 @@
-[1539460944.687][INFO]: COMMAND InitSession {
+[1539463461.175][INFO]: COMMAND InitSession {
    "capabilities": {
       "alwaysMatch": {
          "chromeOptions": {
@@ -7,7 +7,7 @@
       }
    }
 }
-[1539460944.691][INFO]: Populating Preferences file: {
+[1539463461.176][INFO]: Populating Preferences file: {
    "alternate_error_pages": {
       "enabled": false
    },
@@ -60,7 +60,7 @@
       "enabled": false
    }
 }
-[1539460944.693][INFO]: Populating Local State file: {
+[1539463461.177][INFO]: Populating Local State file: {
    "background_mode": {
       "enabled": false
    },
@@ -70,9 +70,9 @@
       }
    }
 }
-[1539460944.706][INFO]: Launching chrome: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension="C:\Users\Rade\AppData\Local\Temp\scoped_dir4776_12380\internal" --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=12938 --test-type=webdriver --use-mock-keychain --user-data-dir="C:\Users\Rade\AppData\Local\Temp\scoped_dir4776_5853" data:,
-[1539460945.035][INFO]: resolved localhost to ["::1","127.0.0.1"]
-[1539460946.061][INFO]: RESPONSE InitSession {
+[1539463461.183][INFO]: Launching chrome: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension="C:\Users\Rade\AppData\Local\Temp\scoped_dir5468_4841\internal" --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=12005 --test-type=webdriver --use-mock-keychain --user-data-dir="C:\Users\Rade\AppData\Local\Temp\scoped_dir5468_20811" data:,
+[1539463461.515][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[1539463462.556][INFO]: RESPONSE InitSession {
    "capabilities": {
       "acceptInsecureCerts": false,
       "acceptSslCerts": false,
@@ -81,7 +81,7 @@
       "browserName": "chrome",
       "chrome": {
          "chromedriverVersion": "2.37.543627 (63642262d9fb93fb4ab52398be4286d844092a5e)",
-         "userDataDir": "C:\\Users\\Rade\\AppData\\Local\\Temp\\scoped_dir4776_5853"
+         "userDataDir": "C:\\Users\\Rade\\AppData\\Local\\Temp\\scoped_dir5468_20811"
       },
       "cssSelectorsEnabled": true,
       "databaseEnabled": false,
@@ -98,9 +98,155 @@
       "setWindowRect": true,
       "~~~": "..."
    },
-   "sessionId": "fd56d9f16381530fa44403d54df946b8"
+   "sessionId": "ffbcf000f665f45e4e9d4a2d20facc32"
 }
-[1539460946.074][INFO]: COMMAND Quit {
+[1539463462.575][INFO]: COMMAND Navigate {
+   "url": "http://google.com"
+}
+[1539463462.575][INFO]: Waiting for pending navigations...
+[1539463462.604][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.123][INFO]: Waiting for pending navigations...
+[1539463463.718][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.718][INFO]: RESPONSE Navigate
+[1539463463.722][INFO]: COMMAND FindElement {
+   "using": "xpath",
+   "value": "//input[@id='lst-ib1']"
+}
+[1539463463.722][INFO]: Waiting for pending navigations...
+[1539463463.723][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.735][INFO]: Waiting for pending navigations...
+[1539463463.735][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.736][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":"//input[@id='lst-ib1']"}
+  (Session info: chrome=69.0.3497.100)
+[1539463463.744][INFO]: COMMAND FindElement {
+   "using": "xpath",
+   "value": "//input[@id='lst-ib']"
+}
+[1539463463.744][INFO]: Waiting for pending navigations...
+[1539463463.745][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.756][INFO]: Waiting for pending navigations...
+[1539463463.757][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.757][INFO]: RESPONSE FindElement {
+   "element-6066-11e4-a52e-4f735466cecf": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463463.760][INFO]: COMMAND FindElements {
+   "using": "xpath",
+   "value": "//div/input"
+}
+[1539463463.761][INFO]: Waiting for pending navigations...
+[1539463463.761][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.773][INFO]: Waiting for pending navigations...
+[1539463463.775][INFO]: Done waiting for pending navigations. Status: ok
+[1539463463.776][INFO]: RESPONSE FindElements [ {
+   "element-6066-11e4-a52e-4f735466cecf": "2c83626d-2a64-4b54-bc1a-d7f2a28b1e77"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "77e8abc1-b5ac-4741-abe0-5383272291c9"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "0e3bee9a-ed52-464a-b027-e1d97c5d6c5d"
+}, {
+   "element-6066-11e4-a52e-4f735466cecf": "015e9107-5a38-40ed-a81f-67bf6222ece9"
+} ]
+[1539463465.416][INFO]: COMMAND TypeElement {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb",
+   "text": "testing 123",
+   "value": [ "t", "e", "s", "t", "i", "n", "g", " ", "1", "2", "3" ]
+}
+[1539463465.416][INFO]: Waiting for pending navigations...
+[1539463465.427][INFO]: Done waiting for pending navigations. Status: ok
+[1539463465.513][INFO]: Waiting for pending navigations...
+[1539463465.513][INFO]: Done waiting for pending navigations. Status: ok
+[1539463465.513][INFO]: RESPONSE TypeElement
+[1539463466.030][INFO]: COMMAND GetElementText {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463466.030][INFO]: Waiting for pending navigations...
+[1539463466.032][INFO]: Done waiting for pending navigations. Status: ok
+[1539463466.062][INFO]: Waiting for pending navigations...
+[1539463466.064][INFO]: Done waiting for pending navigations. Status: ok
+[1539463466.064][INFO]: RESPONSE GetElementText ""
+[1539463466.073][INFO]: COMMAND ClearElement {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463466.073][INFO]: Waiting for pending navigations...
+[1539463466.075][INFO]: Done waiting for pending navigations. Status: ok
+[1539463466.089][INFO]: Waiting for pending navigations...
+[1539463466.089][INFO]: Done waiting for pending navigations. Status: ok
+[1539463466.089][INFO]: RESPONSE ClearElement
+[1539463466.607][INFO]: COMMAND TypeElement {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb",
+   "text": "abc xyz",
+   "value": [ "a", "b", "c", " ", "x", "y", "z" ]
+}
+[1539463466.608][INFO]: Waiting for pending navigations...
+[1539463466.610][INFO]: Done waiting for pending navigations. Status: ok
+[1539463466.693][INFO]: Waiting for pending navigations...
+[1539463466.694][INFO]: Done waiting for pending navigations. Status: ok
+[1539463466.694][INFO]: RESPONSE TypeElement
+[1539463467.200][INFO]: COMMAND GetElementText {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463467.200][INFO]: Waiting for pending navigations...
+[1539463467.202][INFO]: Done waiting for pending navigations. Status: ok
+[1539463467.221][INFO]: Waiting for pending navigations...
+[1539463467.225][INFO]: Done waiting for pending navigations. Status: ok
+[1539463467.225][INFO]: RESPONSE GetElementText ""
+[1539463467.234][INFO]: COMMAND ClearElement {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463467.234][INFO]: Waiting for pending navigations...
+[1539463467.235][INFO]: Done waiting for pending navigations. Status: ok
+[1539463467.248][INFO]: Waiting for pending navigations...
+[1539463467.249][INFO]: Done waiting for pending navigations. Status: ok
+[1539463467.249][INFO]: RESPONSE ClearElement
+[1539463467.766][INFO]: COMMAND TypeElement {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb",
+   "text": "fujimo",
+   "value": [ "f", "u", "j", "i", "m", "o" ]
+}
+[1539463467.766][INFO]: Waiting for pending navigations...
+[1539463467.767][INFO]: Done waiting for pending navigations. Status: ok
+[1539463467.801][INFO]: Waiting for pending navigations...
+[1539463467.801][INFO]: Done waiting for pending navigations. Status: ok
+[1539463467.801][INFO]: RESPONSE TypeElement
+[1539463468.313][INFO]: COMMAND GetElementText {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463468.313][INFO]: Waiting for pending navigations...
+[1539463468.314][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.318][INFO]: Waiting for pending navigations...
+[1539463468.319][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.319][INFO]: RESPONSE GetElementText ""
+[1539463468.323][INFO]: COMMAND ClickElement {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463468.323][INFO]: Waiting for pending navigations...
+[1539463468.323][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.356][INFO]: Waiting for pending navigations...
+[1539463468.356][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.356][INFO]: RESPONSE ClickElement
+[1539463468.359][INFO]: COMMAND GetElementAttribute {
+   "id": "01983fb5-4997-4b0e-af13-c771b13012eb",
+   "name": "text"
+}
+[1539463468.359][INFO]: Waiting for pending navigations...
+[1539463468.359][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.362][INFO]: Waiting for pending navigations...
+[1539463468.362][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.362][INFO]: RESPONSE GetElementAttribute null
+[1539463468.366][INFO]: COMMAND FindElement {
+   "using": "xpath",
+   "value": "//input[@id='lst-ib']"
+}
+[1539463468.366][INFO]: Waiting for pending navigations...
+[1539463468.367][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.371][INFO]: Waiting for pending navigations...
+[1539463468.371][INFO]: Done waiting for pending navigations. Status: ok
+[1539463468.371][INFO]: RESPONSE FindElement {
+   "element-6066-11e4-a52e-4f735466cecf": "01983fb5-4997-4b0e-af13-c771b13012eb"
+}
+[1539463471.386][INFO]: COMMAND Quit {
 
 }
-[1539460946.180][INFO]: RESPONSE Quit
+[1539463471.551][INFO]: RESPONSE Quit

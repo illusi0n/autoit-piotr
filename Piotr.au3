@@ -21,8 +21,9 @@
 Local $config = readConfigFromUI()
 Local $numOfRepeat = $config[0]
 Global $ExcelBook
-Global $aResult
-
+Local $aResult
+$URL = "http://google.com"
+$SearchXpath = "//input[@id='lst-ib1']"
 executeNTimes($numOfRepeat)
 showMessage("Done")
 
@@ -98,33 +99,69 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 		Sleep(500)
 		
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		; add FF start here, go to Google and click on search bar
+		; Chrome start here, go to Google and click on search bar
 		;
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		
+		StartChrome()
+
+		NavigateToURL($URL)
+
+		FindElementByXpath($SearchXpath)
 			
 		For $elem = 0 to UBound($aArray)-1
 			if $aArray[$elem]=="]" Then 
+			Sleep(2000)
 				SEND("{TAB}")
 			Else 
 				SEND($aArray[$elem])
 			Endif
 			
-			Sleep(1000)
+			Sleep(200)
 		Next
-		; Close the Notepad window using the classname of Notepad.
-		If WinClose("[CLASS:Notepad]", "") Then
-			MsgBox($MB_SYSTEMMODAL, "", "Window closed")
-		Else
-			MsgBox($MB_SYSTEMMODAL + $MB_ICONERROR, "Error", "Window not Found")
-		EndIf
+		
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		; DON'T Close FF browser here
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	endif
 $i += 1
 $aResult = _Excel_RangeRead($oExcelBook, Default, "F"&$i&":F"&$i, 1)
 WEnd
 
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		; Click share button here
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 If @error Then 
 Exit MsgBox($MB_SYSTEMMODAL, "Error", "Error reading from workbook." & @CRLF & "@error = " & @error & ", @extended = " & @extended)
 MsgBox($MB_SYSTEMMODAL, "Excel UDF: _Excel_RangeRead", "Data successfully read." & @CRLF & "Please click 'OK'")
 endif
 
+Func SetupChrome()
+	_WD_Option('Driver', 'chromedriver.exe')
+	_WD_Option('Port', 9515)
+	_WD_Option('DriverParams', '--log-path="' & @ScriptDir & '\chrome.log"')
+
+	$sDesiredCapabilities = '{"capabilities": {"alwaysMatch": {"chromeOptions": {"w3c": true }}}}'
+EndFunc
+
+Func StartChrome()
+	SetupChrome()
+	_WD_Startup()
+	$sSession = _WD_CreateSession($sDesiredCapabilities)
+EndFunc
+
+Func NavigateToURL($URL)
+	_WD_Navigate($sSession, $URL)
+EndFunc
+
+Func FindElementByXpath($Xpath)
+	$sElement = _WD_FindElement($sSession, $_WD_LOCATOR_ByXPath, $Xpath)
+EndFunc
+
+Func CloseChrome()
+	_WD_DeleteSession($sSession)
+	_WD_Shutdown()
+EndFunc

@@ -1,12 +1,12 @@
 #include "wd_core.au3"
 #include "wd_helper.au3"
 
-Local Enum $eFireFox = 0, _
+Local Enum $eFireFox, _
 			$eChrome
 			
 Local $aDemoSuite[][2] = [["DemoTimeouts", False], ["DemoNavigation", False], ["DemoElements", False], ["DemoScript", False], ["DemoCookies", False], ["DemoAlerts", False],["DemoFrames", False], ["DemoActions", True]]
 
-Local Const $_TestType = $eFireFox
+Local Const $_TestType = $eChrome
 Local $sDesiredCapabilities
 Local $iIndex
 Local $sSession
@@ -26,6 +26,8 @@ _WD_Startup()
 
 $sSession = _WD_CreateSession($sDesiredCapabilities)
 
+DemoElements()
+Sleep(3000)
 _WD_DeleteSession($sSession)
 _WD_Shutdown()
 
@@ -145,7 +147,7 @@ _WD_Option('Driver', 'geckodriver.exe')
 _WD_Option('DriverParams', '--log-path="' & @ScriptDir & '\firefox.log"')
 _WD_Option('Port', 4444)
 
-$sDesiredCapabilities = '{"desiredCapabilities":{"javascriptEnabled":true,"nativeEvents":true,"acceptInsecureCerts":true}}'
+;$sDesiredCapabilities = '{"desiredCapabilities":{"javascriptEnabled":true,"nativeEvents":true,"acceptInsecureCerts":true}}'
 EndFunc
 
 Func SetupChrome()
