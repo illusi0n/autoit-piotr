@@ -131,7 +131,7 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 		$vSheet2 = _ExcelSheetActivate($oExcel, 2)
 	
 		$j = 1
-		Local
+		Local $oPaste
 		While Not $oPaste ==""
 			$oPaste = _Excel_RangeRead($oExcelBook, Default, "A"&$j&":A"&$j, 1)
 			if $j==5000 Then 
@@ -140,7 +140,11 @@ MsgBox($MB_SYSTEMMODAL, "Value", $aResult)
 			Endif
 			$j+=1
 		WEnd
-			_Excel_RangeWrite ( $oExcelBook, $vSheet2, $oCopy, $vRange = "A"&$i , $bValue = True , $bForceFunc = False )
+		_ExcelSheetActivate($oExcel, 2)
+
+		$cellNum= giveNumberOfFirstEmptyCell($oExcelBook,"A")
+		$FirstEmptyCellInColumn = "A"&$cellNum
+		_Excel_RangeWrite ( $oExcelBook, $vSheet2, $oCopy, $vRange = "A"&$FirstEmptyCellInColumn , $bValue = True , $bForceFunc = False )
 					
 	endif
 $i += 1
@@ -173,4 +177,24 @@ EndFunc
 Func CloseChrome()
 	_WD_DeleteSession($sSession)
 	_WD_Shutdown()
+EndFunc
+
+Func giveValueOfCell($oExcelBook,$Column,$j)
+	local $j
+	$value = _Excel_RangeRead($oExcelBook, Default, $Column&$j&":"&$Column&$j, 1)			
+	Return $value
+EndFunc
+
+Func giveNumberOfFirstEmptyCell($oExcelBook,$Column)
+local $j
+	While Not $oPaste ==""
+				$oPaste = _Excel_RangeRead($oExcelBook, Default, $Column&$j&":"&$Column&$j, 1)
+				$j+=1
+				if $j==5000 Then 
+					showMessage("Quitting after trying to write in cell: "&$Column&$j)
+					exit 
+				Endif
+				
+	WEnd
+Return $j
 EndFunc
