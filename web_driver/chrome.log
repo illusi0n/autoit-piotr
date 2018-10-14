@@ -1,0 +1,152 @@
+[1539477261.418][INFO]: COMMAND InitSession {
+   "capabilities": {
+      "alwaysMatch": {
+         "chromeOptions": {
+            "w3c": true
+         }
+      }
+   }
+}
+[1539477261.427][INFO]: Populating Preferences file: {
+   "alternate_error_pages": {
+      "enabled": false
+   },
+   "autofill": {
+      "enabled": false
+   },
+   "browser": {
+      "check_default_browser": false
+   },
+   "distribution": {
+      "import_bookmarks": false,
+      "import_history": false,
+      "import_search_engine": false,
+      "make_chrome_default_for_user": false,
+      "skip_first_run_ui": true
+   },
+   "dns_prefetching": {
+      "enabled": false
+   },
+   "profile": {
+      "content_settings": {
+         "pattern_pairs": {
+            "https://*,*": {
+               "media-stream": {
+                  "audio": "Default",
+                  "video": "Default"
+               }
+            }
+         }
+      },
+      "default_content_setting_values": {
+         "geolocation": 1
+      },
+      "default_content_settings": {
+         "geolocation": 1,
+         "mouselock": 1,
+         "notifications": 1,
+         "popups": 1,
+         "ppapi-broker": 1
+      },
+      "password_manager_enabled": false
+   },
+   "safebrowsing": {
+      "enabled": false
+   },
+   "search": {
+      "suggest_enabled": false
+   },
+   "translate": {
+      "enabled": false
+   }
+}
+[1539477261.432][INFO]: Populating Local State file: {
+   "background_mode": {
+      "enabled": false
+   },
+   "ssl": {
+      "rev_checking": {
+         "enabled": false
+      }
+   }
+}
+[1539477261.467][INFO]: Launching chrome: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension="C:\Users\milos\AppData\Local\Temp\scoped_dir20512_22013\internal" --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=12316 --test-type=webdriver --use-mock-keychain --user-data-dir="C:\Users\milos\AppData\Local\Temp\scoped_dir20512_26189" data:,
+[1539477261.958][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[1539477263.003][INFO]: RESPONSE InitSession {
+   "capabilities": {
+      "acceptInsecureCerts": false,
+      "acceptSslCerts": false,
+      "applicationCacheEnabled": false,
+      "browserConnectionEnabled": false,
+      "browserName": "chrome",
+      "chrome": {
+         "chromedriverVersion": "2.37.543627 (63642262d9fb93fb4ab52398be4286d844092a5e)",
+         "userDataDir": "C:\\Users\\milos\\AppData\\Local\\Temp\\scoped_dir20512_26189"
+      },
+      "cssSelectorsEnabled": true,
+      "databaseEnabled": false,
+      "handlesAlerts": true,
+      "hasTouchScreen": false,
+      "javascriptEnabled": true,
+      "locationContextEnabled": true,
+      "mobileEmulationEnabled": false,
+      "nativeEvents": true,
+      "networkConnectionEnabled": false,
+      "pageLoadStrategy": "normal",
+      "platform": "Windows NT",
+      "rotatable": false,
+      "setWindowRect": true,
+      "~~~": "..."
+   },
+   "sessionId": "9df9cd64108f2717ee4e24812fd74dff"
+}
+[1539477263.022][INFO]: COMMAND Navigate {
+   "url": "http://www.mytextarea.com/"
+}
+[1539477263.022][INFO]: Waiting for pending navigations...
+[1539477263.030][INFO]: Done waiting for pending navigations. Status: ok
+[1539477264.120][INFO]: Waiting for pending navigations...
+[1539477265.201][INFO]: Done waiting for pending navigations. Status: ok
+[1539477265.201][INFO]: RESPONSE Navigate
+[1539477265.722][INFO]: COMMAND FindElement {
+   "using": "xpath",
+   "value": "//textarea[@id='textarea']"
+}
+[1539477265.722][INFO]: Waiting for pending navigations...
+[1539477265.724][INFO]: Done waiting for pending navigations. Status: ok
+[1539477265.738][INFO]: Waiting for pending navigations...
+[1539477265.739][INFO]: Done waiting for pending navigations. Status: ok
+[1539477265.739][INFO]: RESPONSE FindElement {
+   "element-6066-11e4-a52e-4f735466cecf": "92f868e9-dac7-4da1-a049-853753935bcd"
+}
+[1539477265.747][INFO]: COMMAND ClickElement {
+   "id": "92f868e9-dac7-4da1-a049-853753935bcd"
+}
+[1539477265.747][INFO]: Waiting for pending navigations...
+[1539477265.748][INFO]: Done waiting for pending navigations. Status: ok
+[1539477265.822][INFO]: Waiting for pending navigations...
+[1539477265.822][INFO]: Done waiting for pending navigations. Status: ok
+[1539477265.822][INFO]: RESPONSE ClickElement
+[1539477266.569][INFO]: COMMAND FindElement {
+   "using": "xpath",
+   "value": "//img[@id='save']"
+}
+[1539477266.569][INFO]: Waiting for pending navigations...
+[1539477266.571][INFO]: Done waiting for pending navigations. Status: ok
+[1539477266.619][INFO]: Waiting for pending navigations...
+[1539477266.621][INFO]: Done waiting for pending navigations. Status: ok
+[1539477266.622][INFO]: RESPONSE FindElement {
+   "element-6066-11e4-a52e-4f735466cecf": "c6c27bf9-1337-4272-9b49-10dbd292d3f5"
+}
+[1539477266.639][INFO]: COMMAND ClickElement {
+   "id": "c6c27bf9-1337-4272-9b49-10dbd292d3f5"
+}
+[1539477266.639][INFO]: Waiting for pending navigations...
+[1539477266.640][INFO]: Done waiting for pending navigations. Status: ok
+[1539477266.725][INFO]: Waiting for pending navigations...
+[1539477266.726][INFO]: Done waiting for pending navigations. Status: ok
+[1539477266.726][INFO]: RESPONSE ClickElement
+[1539477267.238][INFO]: COMMAND Quit {
+
+}
+[1539477267.429][INFO]: RESPONSE Quit

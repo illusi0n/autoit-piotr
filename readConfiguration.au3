@@ -1,5 +1,6 @@
 #include <file.au3>
 #include <array.au3>
+#include <util.au3>
 
 #Local $config = readConfigFromFile("autoit.config")
 Local $config = readConfigFromUI()
@@ -40,12 +41,4 @@ Func executeNtimes($n)
 	For $i = 1 to $n
 		showMessage($i)
 	Next
-EndFunc
-
-Func showArray($array)
-	MsgBox(0, "Values", _ArrayToString($array, @TAB))
-EndFunc
-
-Func showMessage($message)
-	MsgBox(0, "AutoIt", $message)
 EndFunc
