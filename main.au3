@@ -87,7 +87,7 @@ Func executeOnce()
 				; reading from excel and 
 				$url = readCell($oExcelBook, $URL_COLUMN&$i, 1)
 				$message = readCell($oExcelBook, $MESSAGE_COLUMN&$i, 1)
-				MsgBox($MB_SYSTEMMODAL, "Value", $message)
+				;MsgBox($MB_SYSTEMMODAL, "Value", $message)
 				
 				Sleep(500)
 
@@ -104,11 +104,6 @@ Func executeOnce()
 	WEnd
 	_Excel_Close($excel, True, True)
 EndFunc
-
-;If @error Then 
-;Exit MsgBox($MB_SYSTEMMODAL, "Error", "Error reading from workbook." & @CRLF & "@error = " & @error & ", @extended = " & @extended)
-;MsgBox($MB_SYSTEMMODAL, "Excel UDF: _Excel_RangeRead", "Data successfully read." & @CRLF & "Please click 'OK'")
-;endif
 
 Func getFirstEmptyCell($excelBook)
 	$j = 1

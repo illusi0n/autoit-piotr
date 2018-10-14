@@ -1,5 +1,3 @@
-
-
 Func sendKey($key)
 	Send($key)
 EndFunc
