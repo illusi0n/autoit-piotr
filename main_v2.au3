@@ -15,28 +15,28 @@
 
 ;######### MOVE TO CONFIG FILE ###########
 
-Global $SEARCH_BOX_X = 1989
-Global $SEARCH_BOX_Y = 153
+Global $SEARCH_BOX_X = 102
+Global $SEARCH_BOX_Y = 69
 
-Global $BROWSER_URL_X = 3228
-Global $BROWSER_URL_Y = 64
+Global $BROWSER_URL_X = 923
+Global $BROWSER_URL_Y = 81
 
-Global $SHARE_TEXT_X = 3126
-Global $SHARE_TEXT_Y = 166
+Global $SHARE_TEXT_X = 719
+Global $SHARE_TEXT_Y = 151
 
-Global $SHARE_BUTTON_X = 3820
-Global $SHARE_BUTTON_Y = 1022
+Global $SHARE_BUTTON_X = 719
+Global $SHARE_BUTTON_Y = 500
 
-Global $SHEET1_X = 2008
-Global $SHEET1_Y = 1011
+Global $SHEET1_X = 105
+Global $SHEET1_Y = 643
 
-Global $SHEET2_X = 2069
-Global $SHEET2_Y = 1011
+Global $SHEET2_X = 156
+Global $SHEET2_Y = 651
 
 Global $SLEEP_ON_CLOSED_BRACKET = 2000
 Global $KEY_ON_CLOSED_BRACKET = "{ENTER}"
 
-Global $WAIT_FOR_URL_TO_LOAD = 5000
+Global $WAIT_FOR_URL_TO_LOAD = 3000
 
 ;########################################
 
@@ -58,6 +58,7 @@ Global $WAIT_FOR_URL_TO_LOAD = 5000
 ;########################################
 
 ;showMousePositionNTimes(3)
+Sleep(3000)
 executeScript()
 
 Func executeScript()
@@ -250,9 +251,7 @@ EndFunc
 
 Func editUrlSearchBox()
 	click()
-	oneSecond()
-	Send("^a")
-	Send("{BACKSPACE}")
+	clearText()
 EndFunc
 
 Func enterUrl($stringUrl)
@@ -382,3 +381,18 @@ Func showMousePosition()
 	Local $aPos = MouseGetPos()
 	MsgBox($MB_SYSTEMMODAL, "Mouse x, y:", $aPos[0] & ", " & $aPos[1])
 EndFunc
+
+Func readConfigFromFile($fileName)
+	Dim $allProperties, $i
+	$numProperties = _FileReadToArray($fileName, $allProperties)
+	Local $config[$allProperties[0]]
+	If $numProperties <> 0 Then
+
+		For $i = 1 To $allProperties[0]
+			#StringSplit returns array, first element N is size
+			#next N elements are array values
+			$config[$i-1] = StringSplit($allProperties[$i], "=")[2]
+		Next
+	EndIf 
+	return $config
+EndFuncs
