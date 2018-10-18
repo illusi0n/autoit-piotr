@@ -12,9 +12,9 @@ EndFunc
 
 Func showMousePositionNTimes($n)
 	For $i = 1 To $n
-		Sleep(2000)
-		showMousePosition()
 		Sleep(3000)
+		showMousePosition()
+		Sleep(1000)
 	Next
 EndFunc
 	
