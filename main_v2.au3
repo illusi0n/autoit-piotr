@@ -45,6 +45,8 @@ Global $KEY_ON_CLOSED_BRACKET = $properties[13]
 
 Global $WAIT_FOR_URL_TO_LOAD = $properties[14]
 
+; will dynamically change over time
+Global $CURRENT_COPY_TO_ROW = $properties[15]
 
 ;########################################
 ;# TODO
@@ -109,14 +111,12 @@ EndFunc
 
 Func putInClipboard()
 	copy()
-	smallSleep()
+	Sleep(500)
 EndFunc
 
 Func readFromClipboard()
 	$clipboard = ClipGet()
-	smallSleep()
 	Send("{ESC}")
-	smallSleep()
 	return $clipboard
 EndFunc
 
@@ -171,18 +171,21 @@ EndFunc
 
 Func pasteCopiedValue($value)
 	ClipPut($value)
-	smallSleep()
+	second()
 	paste()
 EndFunc
 
 Func findFirstEmptyCell()
+	$current = $CURRENT_COPY_TO_ROW
 	While 1
 		putInClipboard()
 		$value = readFromClipboard()
 		If $value = @CRLF Then
+			$CURRENT_COPY_TO_ROW = $current
 			ExitLoop
 		EndIf
 		down()
+		$current += 1
 	WEnd
 EndFunc
 
@@ -243,12 +246,12 @@ Func searchMessageCell($row)
 	enter()
 EndFunc
 
-Func smallSleep()
+Func second()
 	Sleep(800)
 EndFunc
 
 Func clearText()
-	smallSleep()
+	second()
 	Send("^a")
 	Send("{BACKSPACE}")
 EndFunc
@@ -275,7 +278,7 @@ Func enterMessage($stringMessage)
 	
 	; indices start from 2 to lenght-2 to skip " that are
 	; carried from excel when copying
-	For $i = 2 To $message[0]-2
+	For $i = 2 To $message[0]-3
 		Send($message[$i])
 		If $message[$i] = ']' Then
 			Sleep($SLEEP_ON_CLOSED_BRACKET)
@@ -287,21 +290,21 @@ EndFunc
 
 Func editSearchBox()
 	click()
-	smallSleep()
+	Sleep(1000)
 	click()
-	smallSleep()
+	Sleep(1000)
 	space()
 EndFunc
 
 Func editSearchBoxFocused()
 	click()
-	smallSleep()
+	Sleep(1000)
 	space()
 EndFunc
 
 Func searchCopyToColumn()
 	Send("A")
-	Send("1")
+	Send($CURRENT_COPY_TO_ROW)
 	enter()
 EndFunc
 
@@ -351,7 +354,7 @@ EndFunc
 
 Func moveMouse($x, $y)
 	MouseMove($x, $y)
-	smallSleep()
+	second()
 EndFunc
 
 Func enter()
