@@ -1,28 +1,26 @@
-#include <AutoItConstants.au3>
-#include <MsgBoxConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <StaticConstants.au3>
+#include <WindowsConstants.au3>
+#Region ### START Koda GUI section ### Form=
+$Form1 = GUICreate("Form1", 238, 251, -1, -1)
+$mPosX = GUICtrlCreateLabel(MouseGetPos()[0], 88, 112, 86, 17)
+$LabelX = GUICtrlCreateLabel("Mouse X", 40, 112, 46, 17)
+$mPosY = GUICtrlCreateLabel(MouseGetPos()[1], 88, 136, 86, 17)
+$LabelY = GUICtrlCreateLabel("Mouse Y", 40, 136, 46, 17)
+GUISetState(@SW_SHOW)
+#EndRegion ### END Koda GUI section ###
 
-local $x = readConfigFromUI()
-showMousePositionNTimes($x)
-finishMsg()
 
-Func readConfigFromUI()
-	Local $numOfRepeat = InputBox("Configuration", "How many times to repeat operation?", "1", "")
-	return $numOfRepeat
-EndFunc
+While 1
+	$nMsg = GUIGetMsg()
+	Switch $nMsg
+		Case $GUI_EVENT_CLOSE
+			Exit
+	EndSwitch
+	updateUI()
+WEnd
 
-Func showMousePositionNTimes($n)
-	For $i = 1 To $n
-		Sleep(3000)
-		showMousePosition()
-		Sleep(1000)
-	Next
-EndFunc
-	
-Func showMousePosition()
-	Local $aPos = MouseGetPos()
-	MsgBox($MB_SYSTEMMODAL, "Mouse x, y:", $aPos[0] & ", " & $aPos[1])
-EndFunc
-
-Func finishMsg()
-	MsgBox($MB_SYSTEMMODAL, "Autoit", "Finished!")
+Func updateUI()
+	GUICtrlSetData($mPosX, MouseGetPos()[0])
+    GUICtrlSetData($mPosY, MouseGetPos()[1])
 EndFunc
