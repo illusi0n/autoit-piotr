@@ -24,12 +24,12 @@ Func readConfig($sFilePath)
 ;$intStartCode = "BuildExe"
 $arrRetArray = ""
 $s = _FileReadToArray($sFilePath, $arrRetArray);Reading text file and saving it to array $s will show status of reading file..
-    For $i = 1 To 12
-        ;$arrRetArray[$i] = $line;retrieves taskengine text line by line
-        ;If StringInStr($line, $intStartCode) Then
-        ;        ConsoleWrite ("Starting point "& $line &  @CRLF)
-        ;        return StringStripWS(StringSplit($line,":")[2],$STR_STRIPLEADING + $STR_STRIPTRAILING )
-        ;EndIf
+ For $i = 1 To UBound($arrRetArray)-1
+        $line = $arrRetArray[$i];retrieves taskengine text line by line
+        If StringInStr($line, "SEAR") Then
+                ConsoleWrite ("Starting point "& $line &  @CRLF)
+                return StringStripWS(StringSplit($line,":")[2],$STR_STRIPLEADING + $STR_STRIPTRAILING )
+        EndIf
         if $i = UBound($arrRetArray)-1 then return "Not Found"
     Next
 	return $arrRetArray

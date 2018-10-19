@@ -12,29 +12,42 @@
 
 #include <AutoItConstants.au3>
 #include <MsgBoxConstants.au3>
+#include <Array.au3>
+#include <File.au3>
+#include <util.au3>
+
+local $sFilePath = @ScriptDir&"\autoit.config"
+
+local $array = readConfig($sFilePath)
+Func readConfig($sFilePath)
+
+$arrRetArray = ""
+$s = _FileReadToArray($sFilePath, $arrRetArray);Reading text file and saving it to array $s will show status of reading file..
+return $arrRetArray
+EndFunc
 
 ;######### MOVE TO CONFIG FILE ###########
 
-Global $SEARCH_BOX_X = 102
-Global $SEARCH_BOX_Y = 69
+Global $SEARCH_BOX_X = $array[1]
+Global $SEARCH_BOX_Y = $array[2]
 
-Global $BROWSER_URL_X = 923
-Global $BROWSER_URL_Y = 81
+Global $BROWSER_URL_X = $array[3]
+Global $BROWSER_URL_Y = $array[4]
 
-Global $SHARE_TEXT_X = 719
-Global $SHARE_TEXT_Y = 151
+Global $SHARE_TEXT_X = $array[5]
+Global $SHARE_TEXT_Y = $array[6]
 
-Global $SHARE_BUTTON_X = 719
-Global $SHARE_BUTTON_Y = 500
+Global $SHARE_BUTTON_X = $array[7]
+Global $SHARE_BUTTON_Y = $array[8]
 
-Global $SHEET1_X = 105
-Global $SHEET1_Y = 643
+Global $SHEET1_X = $array[9]
+Global $SHEET1_Y = $array[10]
 
-Global $SHEET2_X = 156
-Global $SHEET2_Y = 651
+Global $SHEET2_X = $array[11]
+Global $SHEET2_Y = $array[12]
 
 Global $SLEEP_ON_CLOSED_BRACKET = 2000
-Global $KEY_ON_CLOSED_BRACKET = "{ENTER}"
+Global $KEY_ON_CLOSED_BRACKET = "{TAB}"
 
 Global $WAIT_FOR_URL_TO_LOAD = 3000
 
@@ -71,7 +84,7 @@ Func executeScript()
 	; 4) For each cell
 	forEachStatusCell()
 
-
+	showMessage("Done!")
 EndFunc
 
 Func forEachStatusCell()
@@ -105,14 +118,14 @@ EndFunc
 
 Func putInClipboard()
 	copy()
-	oneSecond()
+	smallSleep()
 EndFunc
 
 Func readFromClipboard()
 	$clipboard = ClipGet()
-	oneSecond()
+	smallSleep()
 	Send("{ESC}")
-	oneSecond()
+	smallSleep()
 	return $clipboard
 EndFunc
 
@@ -239,12 +252,12 @@ Func searchMessageCell($row)
 	enter()
 EndFunc
 
-Func oneSecond()
+Func smallSleep()
 	Sleep(1000)
 EndFunc
 
 Func clearText()
-	oneSecond()
+	smallSleep()
 	Send("^a")
 	Send("{BACKSPACE}")
 EndFunc
@@ -283,15 +296,15 @@ EndFunc
 
 Func editSearchBox()
 	click()
-	oneSecond()
+	smallSleep()
 	click()
-	oneSecond()
+	smallSleep()
 	space()
 EndFunc
 
 Func editSearchBoxFocused()
 	click()
-	oneSecond()
+	smallSleep()
 	space()
 EndFunc
 
@@ -347,7 +360,7 @@ EndFunc
 
 Func moveMouse($x, $y)
 	MouseMove($x, $y)
-	Sleep(5000)
+	smallSleep()
 EndFunc
 
 Func enter()
@@ -381,18 +394,3 @@ Func showMousePosition()
 	Local $aPos = MouseGetPos()
 	MsgBox($MB_SYSTEMMODAL, "Mouse x, y:", $aPos[0] & ", " & $aPos[1])
 EndFunc
-
-Func readConfigFromFile($fileName)
-	Dim $allProperties, $i
-	$numProperties = _FileReadToArray($fileName, $allProperties)
-	Local $config[$allProperties[0]]
-	If $numProperties <> 0 Then
-
-		For $i = 1 To $allProperties[0]
-			#StringSplit returns array, first element N is size
-			#next N elements are array values
-			$config[$i-1] = StringSplit($allProperties[$i], "=")[2]
-		Next
-	EndIf 
-	return $config
-EndFuncs
