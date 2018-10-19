@@ -94,7 +94,7 @@ Func forEachStatusCell()
 		EndIf
 
 ;		7) check if YES is in clipboard.
-		If $status = "NO"&@CRLF Then
+		If $status = "No"&@CRLF Then
 			processRow($i)
 			moveToCurrentStatusCell($i)
 		EndIf
