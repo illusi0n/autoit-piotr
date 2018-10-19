@@ -1,3 +1,6 @@
 web-driver/debug.log
 web-driver/chrome.log
-~$excel.xlsx
+*.xlsx
+config.properties
+input.txt
+autoit.config

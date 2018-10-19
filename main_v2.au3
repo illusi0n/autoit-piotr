@@ -15,50 +15,40 @@
 #include <Array.au3>
 #include <File.au3>
 #include <util.au3>
+#include <readConfig_v2.au3>
 
-local $sFilePath = @ScriptDir&"\autoit.config"
+local $scriptFilePath = @ScriptDir&"\config.properties"
 
-local $array = readConfig($sFilePath)
-Func readConfig($sFilePath)
-
-$arrRetArray = ""
-$s = _FileReadToArray($sFilePath, $arrRetArray);Reading text file and saving it to array $s will show status of reading file..
-return $arrRetArray
-EndFunc
+local $properties = readConfigFromFile($scriptFilePath)
 
 
+Global $SEARCH_BOX_X = $properties[0]
+Global $SEARCH_BOX_Y = $properties[1]
 
-Global $SEARCH_BOX_X = $array[1]
-Global $SEARCH_BOX_Y = $array[2]
+Global $BROWSER_URL_X = $properties[2]
+Global $BROWSER_URL_Y = $properties[3]
 
-Global $BROWSER_URL_X = $array[3]
-Global $BROWSER_URL_Y = $array[4]
+Global $SHARE_TEXT_X = $properties[4]
+Global $SHARE_TEXT_Y = $properties[5]
 
-Global $SHARE_TEXT_X = $array[5]
-Global $SHARE_TEXT_Y = $array[6]
+Global $SHARE_BUTTON_X = $properties[6]
+Global $SHARE_BUTTON_Y = $properties[7]
 
-Global $SHARE_BUTTON_X = $array[7]
-Global $SHARE_BUTTON_Y = $array[8]
+Global $SHEET1_X = $properties[8]
+Global $SHEET1_Y = $properties[9]
 
-Global $SHEET1_X = $array[9]
-Global $SHEET1_Y = $array[10]
+Global $SHEET2_X = $properties[10]
+Global $SHEET2_Y = $properties[11]
 
-Global $SHEET2_X = $array[11]
-Global $SHEET2_Y = $array[12]
+Global $SLEEP_ON_CLOSED_BRACKET = $properties[12]
+Global $KEY_ON_CLOSED_BRACKET = $properties[13]
 
-;######### MOVE TO CONFIG FILE ###########
-
-Global $SLEEP_ON_CLOSED_BRACKET = 2000
-Global $KEY_ON_CLOSED_BRACKET = "{TAB}"
-
-Global $WAIT_FOR_URL_TO_LOAD = 3000
-
-;########################################
+Global $WAIT_FOR_URL_TO_LOAD = $properties[14]
 
 
 ;########################################
 ;# TODO
-;# Config file
+;# Config file [DONE]
 ;# 1) Create a config file with above values empty
 ;# 2) Config file should be commited as empty file
 ;# 3) Anyone who uses this could setup these values by own needs
@@ -73,7 +63,6 @@ Global $WAIT_FOR_URL_TO_LOAD = 3000
 ;########################################
 
 ;showMousePositionNTimes(3)
-Sleep(3000)
 executeScript()
 
 Func executeScript()
