@@ -26,7 +26,7 @@ $s = _FileReadToArray($sFilePath, $arrRetArray);Reading text file and saving it 
 return $arrRetArray
 EndFunc
 
-;######### MOVE TO CONFIG FILE ###########
+
 
 Global $SEARCH_BOX_X = $array[1]
 Global $SEARCH_BOX_Y = $array[2]
@@ -45,6 +45,8 @@ Global $SHEET1_Y = $array[10]
 
 Global $SHEET2_X = $array[11]
 Global $SHEET2_Y = $array[12]
+
+;######### MOVE TO CONFIG FILE ###########
 
 Global $SLEEP_ON_CLOSED_BRACKET = 2000
 Global $KEY_ON_CLOSED_BRACKET = "{TAB}"
@@ -180,7 +182,7 @@ EndFunc
 
 Func pasteCopiedValue($value)
 	ClipPut($value)
-	oneSecond()
+	smallSleep()
 	paste()
 EndFunc
 
@@ -253,7 +255,7 @@ Func searchMessageCell($row)
 EndFunc
 
 Func smallSleep()
-	Sleep(1000)
+	Sleep(800)
 EndFunc
 
 Func clearText()
