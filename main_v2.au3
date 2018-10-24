@@ -49,7 +49,6 @@ Global $WAIT_FOR_URL_TO_LOAD = $properties[14]
 ; will dynamically change over time
 Global $CURRENT_COPY_TO_ROW = $properties[15]
 Global $TIMES_TO_EXEC = $properties[16]
-Global $SHOW_MESSAGE = $properties[17]
 ;########################################
 ;# TODO
 ;# Config file [DONE]
@@ -66,18 +65,25 @@ Global $SHOW_MESSAGE = $properties[17]
 ;# 2) Cleanup chromedriver and logs, not used anymore [DONE]
 ;########################################
 
-$showMsgOnTop = $SHOW_MESSAGE
-If $showMsgOnTop = 1 Then
-	#Region ### START Koda GUI section ### Form=
-	$Form1 = GUICreate("Autoit", 300, 25, 500, 5)
-	$setMessage = GUICtrlCreateLabel("Press ESC to exit!",-1,-1)
-	GUISetState(@SW_SHOW)
-	WinSetOnTop($Form1, "",1)
-	#EndRegion ### END Koda GUI section ###
+#Region ### START Koda GUI section ### Form=
+$Form1 = GUICreate("Autoit", 300, 25, 500, 5)
+$setMessage = GUICtrlCreateLabel("Press ESC to exit!",-1,-1)
+GUISetState(@SW_SHOW)
+WinSetOnTop($Form1, "",1)
+#EndRegion ### END Koda GUI section ###
+
+If $TIMES_TO_EXEC > 0 Then
+	executeNTimes($TIMES_TO_EXEC)
+Else 
+	executeScript()
 Endif
 
-executeScript()
-
+Func executeNTimes($n)
+		For $i = 1 To $n
+			executeScript()
+		Next	
+EndFunc
+	
 Func executeScript()
 Sleep(2000)
 	; 1) move to search box
