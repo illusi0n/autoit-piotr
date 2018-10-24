@@ -16,6 +16,7 @@
 #include <File.au3>
 #include <util.au3>
 #include <readConfig_v2.au3>
+#include <Misc.au3>
 
 local $scriptFilePath = @ScriptDir&"\config.properties"
 
@@ -47,7 +48,8 @@ Global $WAIT_FOR_URL_TO_LOAD = $properties[14]
 
 ; will dynamically change over time
 Global $CURRENT_COPY_TO_ROW = $properties[15]
-
+Global $TIMES_TO_EXEC = $properties[16]
+Global $SHOW_MESSAGE = $properties[17]
 ;########################################
 ;# TODO
 ;# Config file [DONE]
@@ -64,10 +66,20 @@ Global $CURRENT_COPY_TO_ROW = $properties[15]
 ;# 2) Cleanup chromedriver and logs, not used anymore [DONE]
 ;########################################
 
-;showMousePositionNTimes(3)
+$showMsgOnTop = $SHOW_MESSAGE
+If $showMsgOnTop = 1 Then
+	#Region ### START Koda GUI section ### Form=
+	$Form1 = GUICreate("Autoit", 300, 25, 500, 5)
+	$setMessage = GUICtrlCreateLabel("Press ESC to exit!",-1,-1)
+	GUISetState(@SW_SHOW)
+	WinSetOnTop($Form1, "",1)
+	#EndRegion ### END Koda GUI section ###
+Endif
+
 executeScript()
 
 Func executeScript()
+Sleep(2000)
 	; 1) move to search box
 	moveToSearchBox()
 	; 2) Click to Edit Search Box
@@ -80,6 +92,12 @@ Func executeScript()
 	showMessage("Done!")
 EndFunc
 
+Func closeIfClickedEscape()
+    If _IsPressed("1B") Then
+			Exit
+	EndIf
+EndFunc
+
 Func forEachStatusCell()
 	local $i = 1
 	While 1
@@ -88,13 +106,14 @@ Func forEachStatusCell()
 ;		6) read from clipboard
 		$status = readFromClipboard()
 		
+		
 		;no more cells			
 		If $status = @CRLF Then
 			ExitLoop
 		EndIf
-
+		
 ;		7) check if YES is in clipboard.
-		If $status = "No"&@CRLF Then
+		If $status = "No"&@CRLF or $status = "NO"&@CRLF Then
 			processRow($i)
 			moveToCurrentStatusCell($i)
 		EndIf
@@ -107,20 +126,24 @@ Func moveToCurrentStatusCell($row)
 	moveToSearchBox()
 	editSearchBoxFocused()
 	searchStatusCell($row)
+c
 EndFunc
 
 Func putInClipboard()
+	closeIfClickedEscape()
 	copy()
 	Sleep(500)
 EndFunc
 
 Func readFromClipboard()
+	closeIfClickedEscape()
 	$clipboard = ClipGet()
 	Send("{ESC}")
 	return $clipboard
 EndFunc
 
 Func processRow($row)
+	closeIfClickedEscape()
 	; 8) get url from AA
 	$url = getUrl($row)
 	; 9) get message from AH
@@ -151,6 +174,7 @@ Func processRow($row)
 EndFunc
 
 Func copyCell($row)
+	closeIfClickedEscape()
 	; 20) copy column cell
 	$copiedValue = getCopyCellValue($row)
 	; 21) go to sheet2
@@ -170,14 +194,17 @@ Func copyCell($row)
 EndFunc
 
 Func pasteCopiedValue($value)
+	closeIfClickedEscape()
 	ClipPut($value)
 	second()
+	closeIfClickedEscape()
 	paste()
 EndFunc
 
 Func findFirstEmptyCell()
 	$current = $CURRENT_COPY_TO_ROW
 	While 1
+		closeIfClickedEscape()
 		putInClipboard()
 		$value = readFromClipboard()
 		If $value = @CRLF Then
@@ -190,18 +217,22 @@ Func findFirstEmptyCell()
 EndFunc
 
 Func clickOnShareButton()
+	closeIfClickedEscape()
 	click()
 EndFunc
 
 Func editShareText()
+	closeIfClickedEscape()
 	click()
 EndFunc
 
 Func moveToShareText()
+	closeIfClickedEscape()
 	moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
 EndFunc
 
-Func getCopyCellValue($row)
+Func getCopyCellValue($row)	
+	closeIfClickedEscape()
 	moveToSearchBox()
 	editSearchBox()
 	searchCopyCell($row)
@@ -210,6 +241,7 @@ Func getCopyCellValue($row)
 EndFunc
 
 Func getUrl($row)
+	closeIfClickedEscape()
 	moveToSearchBox()
 	editSearchBoxFocused()
 	searchUrlCell($row)
@@ -226,6 +258,7 @@ Func getMessage($row)
 EndFunc
 
 Func searchUrlCell($row)
+	closeIfClickedEscape()
 	Send("A")
 	Send("A")
 	Send($row)
@@ -233,6 +266,7 @@ Func searchUrlCell($row)
 EndFunc
 
 Func searchCopyCell($row)
+	closeIfClickedEscape()
 	Send("A")
 	Send("F")
 	Send($row)
@@ -240,6 +274,7 @@ Func searchCopyCell($row)
 EndFunc
 
 Func searchMessageCell($row)
+	closeIfClickedEscape()
 	Send("A")
 	Send("H")
 	Send($row)
@@ -248,20 +283,25 @@ EndFunc
 
 Func second()
 	Sleep(800)
+	closeIfClickedEscape()
 EndFunc
 
 Func clearText()
+	closeIfClickedEscape()
 	second()
 	Send("^a")
 	Send("{BACKSPACE}")
+	closeIfClickedEscape()
 EndFunc
 
 Func editUrlSearchBox()
 	click()
 	clearText()
+	closeIfClickedEscape()
 EndFunc
 
 Func enterUrl($stringUrl)
+	closeIfClickedEscape()
 	$url = StringSplit($stringUrl, "")
 	For $i = 1 To $url[0]
 		Send($url[$i])
@@ -271,11 +311,12 @@ EndFunc
 
 Func waitUrlToLoad()
 	Sleep($WAIT_FOR_URL_TO_LOAD)
+	closeIfClickedEscape()
 EndFunc
 
 Func enterMessage($stringMessage)
 	$message = StringSplit($stringMessage, "")
-	
+	closeIfClickedEscape()
 	; indices start from 2 to lenght-2 to skip " that are
 	; carried from excel when copying
 	For $i = 2 To $message[0]-3
@@ -289,11 +330,14 @@ Func enterMessage($stringMessage)
 EndFunc
 
 Func editSearchBox()
+	closeIfClickedEscape()
 	click()
 	Sleep(1000)
+	closeIfClickedEscape()
 	click()
 	Sleep(1000)
 	space()
+	closeIfClickedEscape()
 EndFunc
 
 Func editSearchBoxFocused()
@@ -306,6 +350,7 @@ Func searchCopyToColumn()
 	Send("A")
 	Send($CURRENT_COPY_TO_ROW)
 	enter()
+	closeIfClickedEscape()
 EndFunc
 
 Func searchStatusCell($row)
@@ -313,9 +358,11 @@ Func searchStatusCell($row)
 	Send("G")
 	Send($row)
 	enter()
+	closeIfClickedEscape()
 EndFunc
 
 Func searchStatusColumn()
+	closeIfClickedEscape()
 	Send("A")
 	Send("G")
 	Send("1")
@@ -343,48 +390,44 @@ Func moveToSearchBox()
 EndFunc
 
 Func doubleClick()
+	closeIfClickedEscape()
 	MouseClick($MOUSE_CLICK_LEFT)
 	MouseClick($MOUSE_CLICK_LEFT)
 EndFunc
 
 Func click()
+	closeIfClickedEscape()
 	MouseClick($MOUSE_CLICK_LEFT)
 EndFunc
 
 
 Func moveMouse($x, $y)
+	closeIfClickedEscape()
 	MouseMove($x, $y)
 	second()
 EndFunc
 
 Func enter()
+	closeIfClickedEscape()
 	Send("{ENTER}")
 EndFunc
 
 Func space()
+	closeIfClickedEscape()
 	Send("{SPACE}")
 EndFunc
 
 Func copy()
+	closeIfClickedEscape()
 	Send("^c")
 EndFunc
 
 Func paste()
+	closeIfClickedEscape()
 	Send("^v")
 EndFunc
 
 Func down()
+	closeIfClickedEscape()
 	Send("{DOWN}")
-EndFunc
-
-Func showMousePositionNTimes($n)
-	For $i = 1 To $n
-		showMousePosition()
-		Sleep(5000)
-	Next
-EndFunc
-	
-Func showMousePosition()
-	Local $aPos = MouseGetPos()
-	MsgBox($MB_SYSTEMMODAL, "Mouse x, y:", $aPos[0] & ", " & $aPos[1])
 EndFunc
