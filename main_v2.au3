@@ -18,7 +18,7 @@
 #include <readConfig_v2.au3>
 #include <Misc.au3>
 
-local $scriptFilePath = @ScriptDir&"\config.properties"
+local $scriptFilePath = @ScriptDir&"\config2.properties"
 
 local $properties = readConfigFromFile($scriptFilePath)
 
@@ -65,23 +65,27 @@ Global $TIMES_TO_EXEC = $properties[16]
 ;# 2) Cleanup chromedriver and logs, not used anymore [DONE]
 ;########################################
 
+Local $numOfExec = $TIMES_TO_EXEC
+
 #Region ### START Koda GUI section ### Form=
 $Form1 = GUICreate("Autoit", 300, 25, 500, 5)
-$setMessage = GUICtrlCreateLabel("Press ESC to exit!",-1,-1)
+$setMessage = GUICtrlCreateLabel(" Keep pressed ESC to exit!",70,-1)
 GUISetState(@SW_SHOW)
 WinSetOnTop($Form1, "",1)
 #EndRegion ### END Koda GUI section ###
 
-If $TIMES_TO_EXEC > 0 Then
-	executeNTimes($TIMES_TO_EXEC)
+If $numOfExec > 0 Then
+	executeNTimes($numOfExec)
 Else 
+	showMessage("When ready press OK to start!")
 	executeScript()
 Endif
 
 Func executeNTimes($n)
-		For $i = 1 To $n
-			executeScript()
-		Next	
+	showMessage("When ready press X to start! Number of executions: "&$n)
+	For $i = 1 To $n
+		executeScript()
+	Next	
 EndFunc
 	
 Func executeScript()
@@ -94,7 +98,6 @@ Sleep(2000)
 	searchStatusColumn()
 	; 4) For each cell
 	forEachStatusCell()
-
 	showMessage("Done!")
 EndFunc
 
@@ -132,7 +135,6 @@ Func moveToCurrentStatusCell($row)
 	moveToSearchBox()
 	editSearchBoxFocused()
 	searchStatusCell($row)
-c
 EndFunc
 
 Func putInClipboard()
@@ -256,6 +258,7 @@ Func getUrl($row)
 EndFunc
 
 Func getMessage($row)
+	closeIfClickedEscape()
 	moveToSearchBox()
 	editSearchBoxFocused()
 	searchMessageCell($row)
@@ -267,24 +270,30 @@ Func searchUrlCell($row)
 	closeIfClickedEscape()
 	Send("A")
 	Send("A")
+	closeIfClickedEscape()
 	Send($row)
 	enter()
+	closeIfClickedEscape()
 EndFunc
 
 Func searchCopyCell($row)
 	closeIfClickedEscape()
 	Send("A")
 	Send("F")
+	closeIfClickedEscape()
 	Send($row)
 	enter()
+	closeIfClickedEscape()
 EndFunc
 
 Func searchMessageCell($row)
 	closeIfClickedEscape()
 	Send("A")
 	Send("H")
+	closeIfClickedEscape()
 	Send($row)
 	enter()
+	closeIfClickedEscape()
 EndFunc
 
 Func second()
@@ -296,6 +305,7 @@ Func clearText()
 	closeIfClickedEscape()
 	second()
 	Send("^a")
+	closeIfClickedEscape()
 	Send("{BACKSPACE}")
 	closeIfClickedEscape()
 EndFunc
@@ -310,8 +320,10 @@ Func enterUrl($stringUrl)
 	closeIfClickedEscape()
 	$url = StringSplit($stringUrl, "")
 	For $i = 1 To $url[0]
+		closeIfClickedEscape()
 		Send($url[$i])
 	Next
+	closeIfClickedEscape()
 	enter()
 EndFunc
 
@@ -326,11 +338,16 @@ Func enterMessage($stringMessage)
 	; indices start from 2 to lenght-2 to skip " that are
 	; carried from excel when copying
 	For $i = 2 To $message[0]-3
+		closeIfClickedEscape()
 		Send($message[$i])
 		If $message[$i] = ']' Then
+			closeIfClickedEscape()
 			Sleep($SLEEP_ON_CLOSED_BRACKET)
+			closeIfClickedEscape()
 			Send($KEY_ON_CLOSED_BRACKET)
+			closeIfClickedEscape()
 			Sleep($SLEEP_ON_CLOSED_BRACKET)
+			closeIfClickedEscape()
 		EndIf
 	Next
 EndFunc
@@ -350,9 +367,11 @@ Func editSearchBoxFocused()
 	click()
 	Sleep(1000)
 	space()
+	closeIfClickedEscape()
 EndFunc
 
 Func searchCopyToColumn()
+	closeIfClickedEscape()
 	Send("A")
 	Send($CURRENT_COPY_TO_ROW)
 	enter()
@@ -360,6 +379,7 @@ Func searchCopyToColumn()
 EndFunc
 
 Func searchStatusCell($row)
+	closeIfClickedEscape()
 	Send("A")
 	Send("G")
 	Send($row)
@@ -373,6 +393,7 @@ Func searchStatusColumn()
 	Send("G")
 	Send("1")
 	enter()
+	closeIfClickedEscape()
 EndFunc
 
 Func moveToSheet1()
