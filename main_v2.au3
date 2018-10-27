@@ -84,8 +84,13 @@ If $numOfExec > 0 Then
 Else 
 	showMessage("When ready press OK to start!")
 	executeScript()
+	
 Endif
-
+	showMessage("Done!")
+	
+; END of script
+; Functions are below:
+	
 Func executeNTimes($n)
 	showMessage("When ready press OK to start! Number of executions: "&$n)
 	For $i = 1 To $n
@@ -103,7 +108,6 @@ Sleep(2000)
 	searchStatusColumn()
 	; 4) For each cell
 	forEachStatusCell()
-	showMessage("Done!")
 EndFunc
 
 Func closeIfClickedEscape()
