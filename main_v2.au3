@@ -484,7 +484,7 @@ EndFunc
 Func moveBottomUntilYouFindTextArea()
 	While $getCursorInfo <> $expectedCursorInfo
 		$getCursorInfo = getCursorInfo()
-		$SHARE_TEXT_Y += 10
+		$SHARE_TEXT_Y += 12
 		moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
 		closeIfClickedEscape()	
 		;Sleep()
