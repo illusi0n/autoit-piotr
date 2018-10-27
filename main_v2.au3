@@ -17,9 +17,11 @@
 #include <util.au3>
 #include <readConfig_v2.au3>
 #include <Misc.au3>
+#Include <WinAPI.au3>
 
 local $scriptFilePath = @ScriptDir&"\config2.properties"
-
+Global $getCursorInfo
+Global $expectedCursorInfo = "0x00010005"
 local $properties = readConfigFromFile($scriptFilePath)
 
 
@@ -41,14 +43,17 @@ Global $SHEET1_Y = $properties[9]
 Global $SHEET2_X = $properties[10]
 Global $SHEET2_Y = $properties[11]
 
-Global $SLEEP_ON_CLOSED_BRACKET = $properties[12]
-Global $KEY_ON_CLOSED_BRACKET = $properties[13]
+Global $SLEEP_ON_ASTERISK = $properties[12]
+Global $KEY_ON_ASTERISK = $properties[13]
 
 Global $WAIT_FOR_URL_TO_LOAD = $properties[14]
 
 ; will dynamically change over time
 Global $CURRENT_COPY_TO_ROW = $properties[15]
 Global $TIMES_TO_EXEC = $properties[16]
+Global $SLEEP_BETWEEN_CHARS = $properties[17]
+Global $SHARE_WITH_SHORTCUT = $properties[18]
+
 ;########################################
 ;# TODO
 ;# Config file [DONE]
@@ -82,7 +87,7 @@ Else
 Endif
 
 Func executeNTimes($n)
-	showMessage("When ready press X to start! Number of executions: "&$n)
+	showMessage("When ready press OK to start! Number of executions: "&$n)
 	For $i = 1 To $n
 		executeScript()
 	Next	
@@ -174,9 +179,13 @@ Func processRow($row)
 	; 17) clear message (due to saving previous messages, clear it) #ONLY_FOR_DEMO
 	clearText()
 	; 18) move to share (demo: save) button
-	moveToShareButton()
-	; 19) click on save button
-	clickOnShareButton()
+	if $SHARE_WITH_SHORTCUT = true Then ; send with CTRL+SHIFT click
+		ClickCtrlEnter()
+	Else
+		moveToShareButton()
+		; 19) click on save button
+		clickOnShareButton()
+	Endif
 	; done with browser go to excel to copy cell
 	copyCell($row)
 EndFunc
@@ -237,6 +246,10 @@ EndFunc
 Func moveToShareText()
 	closeIfClickedEscape()
 	moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
+	If $getCursorInfo <> $expectedCursorInfo Then
+		moveBottomUntilYouFindTextArea()
+		moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
+	Endif
 EndFunc
 
 Func getCopyCellValue($row)	
@@ -340,13 +353,14 @@ Func enterMessage($stringMessage)
 	For $i = 2 To $message[0]-3
 		closeIfClickedEscape()
 		Send($message[$i])
-		If $message[$i] = ']' Then
+		Sleep($SLEEP_BETWEEN_CHARS)
+		If $message[$i] = '*' Then
 			closeIfClickedEscape()
-			Sleep($SLEEP_ON_CLOSED_BRACKET)
+			Sleep($SLEEP_ON_ASTERISK)
 			closeIfClickedEscape()
-			Send($KEY_ON_CLOSED_BRACKET)
+			Send($KEY_ON_ASTERISK)
 			closeIfClickedEscape()
-			Sleep($SLEEP_ON_CLOSED_BRACKET)
+			Sleep($SLEEP_ON_ASTERISK)
 			closeIfClickedEscape()
 		EndIf
 	Next
@@ -427,11 +441,15 @@ Func click()
 	MouseClick($MOUSE_CLICK_LEFT)
 EndFunc
 
-
 Func moveMouse($x, $y)
 	closeIfClickedEscape()
 	MouseMove($x, $y)
 	second()
+EndFunc
+
+Func ClickCtrlEnter()
+	closeIfClickedEscape()
+	Send("^{ENTER}")
 EndFunc
 
 Func enter()
@@ -457,4 +475,20 @@ EndFunc
 Func down()
 	closeIfClickedEscape()
 	Send("{DOWN}")
+EndFunc
+
+Func moveBottomUntilYouFindTextArea()
+	While $getCursorInfo <> $expectedCursorInfo
+		$getCursorInfo = getCursorInfo()
+		$SHARE_TEXT_Y += 10
+		moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
+		closeIfClickedEscape()	
+		;Sleep()
+	WEnd
+EndFunc
+
+Func getCursorInfo()
+	Global $aCursor = _WinAPI_GetCursorInfo()
+	$sGetCursorInfo =$aCursor[2]
+	return $sGetCursorInfo
 EndFunc
