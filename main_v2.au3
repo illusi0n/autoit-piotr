@@ -20,8 +20,7 @@
 #Include <WinAPI.au3>
 
 local $scriptFilePath = @ScriptDir&"\config2.properties"
-Global $getCursorInfo
-Global $expectedCursorInfo = "0x00010005"
+Global $enterTextCursorLook = "0x00010005"
 local $properties = readConfigFromFile($scriptFilePath)
 
 
@@ -54,42 +53,26 @@ Global $TIMES_TO_EXEC = $properties[16]
 Global $SLEEP_BETWEEN_CHARS = $properties[17]
 Global $SHARE_WITH_SHORTCUT = $properties[18]
 
-;########################################
-;# TODO
-;# Config file [DONE]
-;# 1) Create a config file with above values empty
-;# 2) Config file should be commited as empty file
-;# 3) Anyone who uses this could setup these values by own needs
-;# 
-;# Setup initial values
-;# 1) function showMousePositionNTimes can be used for getting position of mouse
-;#
-;# Issues
-;# 1) When message is copied from a cell, it has " at the beginning and in the end.
-;#	" should be removed.
-;# 2) Cleanup chromedriver and logs, not used anymore [DONE]
-;########################################
+showGuiAndStartExecution()
 
-Local $numOfExec = $TIMES_TO_EXEC
+Func showGuiAndStartExecution()
 
-#Region ### START Koda GUI section ### Form=
-$Form1 = GUICreate("Autoit", 300, 25, 500, 5)
-$setMessage = GUICtrlCreateLabel(" Keep pressed ESC to exit!",70,-1)
-GUISetState(@SW_SHOW)
-WinSetOnTop($Form1, "",1)
-#EndRegion ### END Koda GUI section ###
+	#Region ### START Koda GUI section ### Form=
+	$Form1 = GUICreate("Autoit", 300, 25, 500, 5)
+	$setMessage = GUICtrlCreateLabel(" Keep pressed ESC to exit!",70,-1)
+	GUISetState(@SW_SHOW)
+	WinSetOnTop($Form1, "",1)
+	#EndRegion ### END Koda GUI section ###
 
-If $numOfExec > 0 Then
-	executeNTimes($numOfExec)
-Else 
-	showMessage("When ready press OK to start!")
-	executeScript()
-	
-Endif
-	showMessage("Done!")
-	
-; END of script
-; Functions are below:
+	If $TIMES_TO_EXEC > 0 Then
+		executeNTimes($TIMES_TO_EXEC)
+	Else 
+		showMessage("When ready press OK to start!")
+		executeScript()
+		
+	Endif
+		showMessage("Done!")
+EndFunc
 	
 Func executeNTimes($n)
 	showMessage("When ready press OK to start! Number of executions: "&$n)
@@ -181,7 +164,7 @@ Func processRow($row)
 	; 16) type message
 	enterMessage($message)
 	; 17) clear message (due to saving previous messages, clear it) #ONLY_FOR_DEMO
-	clearText()
+	;clearText()
 	; 18) move to share (demo: save) button
 	if $SHARE_WITH_SHORTCUT = true Then ; send with CTRL+SHIFT click
 		ClickCtrlEnter()
@@ -250,9 +233,9 @@ EndFunc
 Func moveToShareText()
 	closeIfClickedEscape()
 	moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
-	If $getCursorInfo <> $expectedCursorInfo Then
+	$currentCursorLook = getCursorInfo()
+	If $currentCursorLook <> $enterTextCursorLook Then
 		moveBottomUntilYouFindTextArea()
-		moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
 	Endif
 EndFunc
 
@@ -354,10 +337,8 @@ Func enterMessage($stringMessage)
 	closeIfClickedEscape()
 	; indices start from 2 to lenght-2 to skip " that are
 	; carried from excel when copying
+	Sleep($SLEEP_BETWEEN_CHARS)
 	For $i = 2 To $message[0]-3
-		closeIfClickedEscape()
-		Send($message[$i])
-		Sleep($SLEEP_BETWEEN_CHARS)
 		If $message[$i] = '*' Then
 			closeIfClickedEscape()
 			Sleep($SLEEP_ON_ASTERISK)
@@ -366,6 +347,10 @@ Func enterMessage($stringMessage)
 			closeIfClickedEscape()
 			Sleep($SLEEP_ON_ASTERISK)
 			closeIfClickedEscape()
+		Else
+			closeIfClickedEscape()
+			Send($message[$i])
+			Sleep($SLEEP_BETWEEN_CHARS)
 		EndIf
 	Next
 EndFunc
@@ -482,17 +467,19 @@ Func down()
 EndFunc
 
 Func moveBottomUntilYouFindTextArea()
-	While $getCursorInfo <> $expectedCursorInfo
-		$getCursorInfo = getCursorInfo()
-		$SHARE_TEXT_Y += 12
-		moveMouse($SHARE_TEXT_X, $SHARE_TEXT_Y)
-		closeIfClickedEscape()	
-		;Sleep()
+	$currentCursorLook = getCursorInfo()
+	$tempShareTextY = $SHARE_TEXT_Y
+	While $currentCursorLook <> $enterTextCursorLook
+		$tempShareTextY += 12
+		moveMouse($SHARE_TEXT_X, $tempShareTextY)
+		closeIfClickedEscape()
+		$currentCursorLook = getCursorInfo()
 	WEnd
+	moveMouse($SHARE_TEXT_X, $tempShareTextY)
 EndFunc
 
 Func getCursorInfo()
-	Global $aCursor = _WinAPI_GetCursorInfo()
-	$sGetCursorInfo =$aCursor[2]
-	return $sGetCursorInfo
+	Global $cursor = _WinAPI_GetCursorInfo()
+	$cursorLook =$cursor[2]
+	return $cursorLook
 EndFunc
