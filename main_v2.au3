@@ -20,7 +20,7 @@
 #Include <WinAPI.au3>
 
 local $scriptFilePath = @ScriptDir&"\config2.properties"
-Global $enterTextCursorLook = "0x00010005"
+;Global $enterTextCursorLook = "0x00010005"
 local $properties = readConfigFromFile($scriptFilePath)
 
 
@@ -52,7 +52,8 @@ Global $CURRENT_COPY_TO_ROW = $properties[15]
 Global $TIMES_TO_EXEC = $properties[16]
 Global $SLEEP_BETWEEN_CHARS = $properties[17]
 Global $SHARE_WITH_SHORTCUT = $properties[18]
-
+Global $CURSOR_VALUE = $properties[19]
+Global $enterTextCursorLook = $CURSOR_VALUE  
 showGuiAndStartExecution()
 
 Func showGuiAndStartExecution()
